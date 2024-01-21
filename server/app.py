@@ -15,8 +15,8 @@ app = Flask(
 )
 
 # Standard messages
-error_header = "<h1>something went wrong :("
-error_text = "The following error was produced:"
+error_header = "<h1>something went wrong :(\n"
+error_text = "<p>Please try again!</p>"
 
 
 # Creating a database file if it does not exist
@@ -36,24 +36,25 @@ def test_database():
 def dummy_data():
     times = ['B', 'L', 'D'] # meal time options
 
-    all_meals = db.session.execute(db.select(Meals).all()) # get all meal options
-    loc = db.session.execute(db.select(DiningHalls).dh_name()) # get dining halls, idk if this works
+    all_loc_elements = DiningHalls.query.all()
+    loc = [e.dh_name for e in all_loc_elements]
+    print(loc)
+
+    all_meal_elements = Meals.query.all()
+    all_meals = [e.meal_name for e in all_meal_elements]
+    print(all_meals)
 
     # randomize user meals and dining hall waste
-    for i in range(138):
+    num_random_data = 150
+    last_meal_id = UserMeals.query.count()
+    for i in range(last_meal_id + 1, last_meal_id + 1 + num_random_data):
         dh = random.choice(loc)
         db.session.add(UserMeals(
             user_id=1,
-            meal_id=i, # increments as UserMeals instance
+            meal_id=i,      # increments as UserMeals instance
             location=dh,
             meal_time=random.choice(times),
             meal_served= random.choice(all_meals)
-        ))
-        
-        db.session.add(DiningHalls(
-            dh_name = dh,
-            num_compost = random.randint(20, 30),
-            num_trash = random.randint(30, 40)
         ))
 
     # put into the database
@@ -65,7 +66,8 @@ def login():
         return error_header + error_text
 
     # One-time create all tables (internally will not duplicate)
-    db.create_all()
+    with app.app_context():
+        db.create_all()
     initalize_dim_tables()
 
     return render_template('index.html')

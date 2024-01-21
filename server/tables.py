@@ -8,6 +8,11 @@ class Users(db.Model):
     username = db.Column(db.String, nullable=False)
     password = db.Column(db.String)
 
+class DiningHalls(db.Model):
+    dh_name = db.Column(db.String, primary_key=True)
+    num_compost = db.Column(db.Integer)
+    num_trash = db.Column(db.Integer)
+
 # One-dimensional list of dining hall options
 class Meals(db.Model):
     meal_name = db.Column(db.String, primary_key=True)
@@ -16,14 +21,9 @@ class Meals(db.Model):
 class UserMeals(db.Model):
     user_id = db.Column(db.Integer, ForeignKey("users.user_id"))
     meal_id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String)
+    location = db.Column(db.String, ForeignKey("dining_halls.dh_name"))
     meal_time = db.Column(db.CHAR)  # 'B', 'L', 'D'
     meal_served = db.Column(db.String, ForeignKey("meals.meal_name"))
-
-class DiningHalls(db.Model):
-    dh_name = db.Column(db.String, primary_key=True)
-    num_compost = db.Column(db.Integer)
-    num_trash = db.Column(db.Integer)
 
 # Populate known data, but only once
 def initalize_dim_tables():
