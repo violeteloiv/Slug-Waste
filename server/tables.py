@@ -25,7 +25,7 @@ class UserMeals(db.Model):
     meal_time = db.Column(db.CHAR)  # 'B', 'L', 'D'
     meal_served = db.Column(db.String, ForeignKey("meals.meal_name"))
 
-# Populate known data, but only once
+# Populate known data
 def initalize_dim_tables():
     if not Users.query.get(1):
         db.session.add(Users(user_id=1, username="debug", password="123"))
