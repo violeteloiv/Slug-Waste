@@ -58,7 +58,7 @@ def handle_login():
             if not user.password == try_password:
                 return error_header + error_text
             else:
-                return redirect("/home")
+                return redirect("/submission")
         else:
             # user did not exist, should lead to a registration page>
             return "<h1>pls register:))</h1>"

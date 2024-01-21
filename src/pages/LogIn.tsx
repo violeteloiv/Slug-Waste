@@ -4,16 +4,12 @@ import './Login.css';
 
 function Login() {
   return (
-    <div className="Login">
-      <p id="login_title">Slug Waste Log-In</p>
-      
+    <div className="login">
       <form id="login_form" action="/login" method="POST">
-        <p> username </p>
-        <input type="username" name="username"/>
-        <p> password </p>
-        <input type="password" name="password"/>
-		    <br/>
-        <input type="submit"/>
+        <h1>Login</h1>
+        <input type="text" placeholder="Username" id="username" name="username"/>
+        <input type="password" placeholder="Password" id="password" name="password"/>
+        <input type="submit" id="submit"/>
       </form>
     </div>
   );
