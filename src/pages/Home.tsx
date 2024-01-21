@@ -3,9 +3,7 @@ import logo from './logo.svg';
 
 function Home() {
   return (
-    <div className="Login">
-      
-    </div>
+    <></>
   );
 }
 
