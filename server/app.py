@@ -79,17 +79,22 @@ def handle_login_get():
         try_username = request.form["username"]
         try_password = request.form["password"]
 
-        print(try_username, try_password)
+        # these keywords need a space after them so we know it's not part of an actual password
+        bad_sqls = ["drop ", "delete ", "update ", "create ", "truncate ", "insert ", "select "]
+        lower_pass = try_password.lower()
+        for injection in bad_sqls:
+            if injection in lower_pass:
+                return "<h1>sql injection is a no no! >:(</h1>"
 
         user = Users.query.filter_by(username=try_username).first()
         if user is not None:
-            if not user.password == try_password:
+            if len(try_password) and not user.password == try_password:
                 return error_header + error_text
         else:
             # user did not exist, should lead to a registration page>
             return "<h1>pls register:))</h1>"
         
-        if try_username.isalnum():
+        if try_username.isalnum() and len(try_password):
             dummy_data()
             return "<h1>success</h1>"
         
