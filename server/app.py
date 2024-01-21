@@ -16,7 +16,10 @@ def handle_login_get():
         username = request.form["username"]
         password = request.form["password"]
         print(username, password)
-        return "<h1>success</h1>"
+        
+        if username.isalnum():
+            return "<h1>success</h1>"
+        return "<h1>invalid login</h1>"
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
