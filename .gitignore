@@ -27,3 +27,6 @@ venv/
 env/
 .venv
 .env
+
+# for now data is local, don't push it!
+*.db
