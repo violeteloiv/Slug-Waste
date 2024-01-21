@@ -59,10 +59,8 @@ def handle_login():
                 return error_header + error_text
             else:
                 return redirect("/submission")
-        else:
-            # user did not exist, should lead to a registration page>
-            return "<h1>pls register:))</h1>"
 
+# redundancies to push back to react router for redirects
 @app.route('/sub-path',  defaults={'path': 'index.html'})
 @app.route('/sub-path/<path:path>')
 def index(path):

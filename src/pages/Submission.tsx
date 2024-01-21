@@ -1,10 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 
-function Home() {
+import Navigation from '../Navigation';
+
+function Submission() {
   return (
-    <div> Hi This is the home page </div>
+    <Navigation/>
   );
 }
 
-export default Home;
+export default Submission;
