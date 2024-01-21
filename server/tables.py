@@ -35,10 +35,10 @@ def initalize_dim_tables():
         if not DiningHalls.query.get(dh):
             db.session.add(DiningHalls(dh_name=dh, num_compost=3, num_trash=3))
 
-    meals = ["lol pudding", "Indian Bar", "Nacho Bar", "Yakisoba Noodles", "Burgers", "Pizza"]
-    for meal in meals:
+    meal_options = ["French Toast Sticks", "Mac and Cheese Bar", "Baked Potato Bar", "Taqueria Bar", "Baja Taco Bar",
+                    "Cajun Bayou Bar", "Scrambled Eggs", "Bacon", "Buttermilk Pancakes", "Pho Noodle Bar"]
+    for meal in meal_options:
         if not Meals.query.get(meal):
             db.session.add(Meals(meal_name=meal))
-
 
     db.session.commit()

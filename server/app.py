@@ -34,14 +34,7 @@ def test_database():
         return False
 
 def dummy_data():
-    #loc = ["9/10", "Co/St", "Cr/Me", "Po/Kr", "Oa/RCC"] # location options
     times = ['B', 'L', 'D'] # meal time options
-
-    # add meal options to database
-    meal_options = ["French Toast Sticks", "Mac and Cheese Bar", "Baked Potato Bar", "Taqueria Bar", "Baja Taco Bar", "Cajun Bayou Bar", "Scrambled Eggs", "Bacon", "Buttermilk Pancakes", "Pho Noodle Bar"]
-    for meal in meal_options:
-        db.session.add(Meals(meal_name=meal))
-    db.session.commit()
 
     all_meals = db.session.execute(db.select(Meals).all()) # get all meal options
     loc = db.session.execute(db.select(DiningHalls).dh_name()) # get dining halls, idk if this works
