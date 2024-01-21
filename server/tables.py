@@ -1,5 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey, String, CHAR
+from sqlalchemy import ForeignKey
+
+# Import random library for dummy data
+import random
 
 db = SQLAlchemy()
 
@@ -41,4 +44,29 @@ def initalize_dim_tables():
         if not Meals.query.get(meal):
             db.session.add(Meals(meal_name=meal))
 
+    db.session.commit()
+
+def dummy_data():
+    times = ['B', 'L', 'D'] # meal time options
+
+    all_loc_elements = DiningHalls.query.all()
+    loc = [e.dh_name for e in all_loc_elements]
+
+    all_meal_elements = Meals.query.all()
+    all_meals = [e.meal_name for e in all_meal_elements]
+
+    # randomize user meals and dining hall waste
+    num_random_data = 150
+    last_meal_id = UserMeals.query.count()
+    for i in range(last_meal_id + 1, last_meal_id + 1 + num_random_data):
+        dh = random.choice(loc)
+        db.session.add(UserMeals(
+            user_id=1,
+            meal_id=i,      # increments as UserMeals instance
+            location=dh,
+            meal_time=random.choice(times),
+            meal_served= random.choice(all_meals)
+        ))
+
+    # put into the database
     db.session.commit()
