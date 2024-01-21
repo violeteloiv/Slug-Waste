@@ -22,6 +22,8 @@ class UserMeals(db.Model):
 
 class DiningHalls(db.Model):
     dh_name = db.Column(db.String, primary_key=True)
+    num_compost = db.Column(db.Integer)
+    num_trash = db.Column(db.Integer)
 
 # Populate known data, but only once
 def initalize_dim_tables():
@@ -31,7 +33,12 @@ def initalize_dim_tables():
     dhs = ["9/10", "Co/St", "Cr/Me", "Po/Kr", "Oa/RCC"]
     for dh in dhs:
         if not DiningHalls.query.get(dh):
-            db.session.add(DiningHalls(dh_name=dh))
+            db.session.add(DiningHalls(dh_name=dh, num_compost=3, num_trash=3))
+
+    meals = ["lol pudding", "Indian Bar", "Nacho Bar", "Yakisoba Noodles", "Burgers", "Pizza"]
+    for meal in meals:
+        if not Meals.query.get(meal):
+            db.session.add(Meals(meal_name=meal))
 
 
     db.session.commit()
