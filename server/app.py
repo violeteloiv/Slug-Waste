@@ -5,6 +5,9 @@ from sqlalchemy.sql import text
 # Import table definitions + SQLAlchemy instance
 from tables import *
 
+# Import random library for dummy data
+import random
+
 app = Flask(
  __name__,
  template_folder="../build/",
@@ -31,17 +34,36 @@ def test_database():
         return False
 
 def dummy_data():
-    db.session.add(Meals(meal_name="lol pudding"))
+    #loc = ["9/10", "Co/St", "Cr/Me", "Po/Kr", "Oa/RCC"] # location options
+    times = ['B', 'L', 'D'] # meal time options
 
-    db.session.add(UserMeals(
-        user_id=1,
-        meal_id=1,
-        location="9/10",
-        meal_time='B',
-        meal_served="lol pudding"
-    ))
+    # add meal options to database
+    meal_options = ["French Toast Sticks", "Mac and Cheese Bar", "Baked Potato Bar", "Taqueria Bar", "Baja Taco Bar", "Cajun Bayou Bar", "Scrambled Eggs", "Bacon", "Buttermilk Pancakes", "Pho Noodle Bar"]
+    for meal in meal_options:
+        db.session.add(Meals(meal_name=meal))
+    db.session.commit()
 
-    # actually ykno put into the database
+    all_meals = db.session.execute(db.select(Meals).all()) # get all meal options
+    loc = db.session.execute(db.select(DiningHalls).dh_name()) # get dining halls, idk if this works
+
+    # randomize user meals and dining hall waste
+    for i in range(138):
+        dh = random.choice(loc)
+        db.session.add(UserMeals(
+            user_id=1,
+            meal_id=i, # increments as UserMeals instance
+            location=dh,
+            meal_time=random.choice(times),
+            meal_served= random.choice(all_meals)
+        ))
+        
+        db.session.add(DiningHalls(
+            dh_name = dh,
+            num_compost = random.randint(20, 30),
+            num_trash = random.randint(30, 40)
+        ))
+
+    # put into the database
     db.session.commit()
 
 @app.route("/")
