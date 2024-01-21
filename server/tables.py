@@ -21,13 +21,17 @@ class UserMeals(db.Model):
     meal_served = db.Column(db.String, ForeignKey("meals.meal_name"))
 
 class DiningHalls(db.Model):
-    dh_name = db.Column(db.Integer, primary_key=True)
+    dh_name = db.Column(db.String, primary_key=True)
 
-
-# Populate known data
+# Populate known data, but only once
 def initalize_dim_tables():
     if not Users.query.get(1):
         db.session.add(Users(user_id=1, username="debug", password="123"))
+
+    dhs = ["9/10", "Co/St", "Cr/Me", "Po/Kr", "Oa/RCC"]
+    for dh in dhs:
+        if not DiningHalls.query.get(dh):
+            db.session.add(DiningHalls(dh_name=dh))
 
 
     db.session.commit()

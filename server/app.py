@@ -29,7 +29,20 @@ def test_database():
         return True
     except Exception as e:
         return False
-    
+
+def dummy_data():
+    db.session.add(Meals(meal_name="lol pudding"))
+
+    db.session.add(UserMeals(
+        user_id=1,
+        meal_id=1,
+        location="9/10",
+        meal_time='B',
+        meal_served="lol pudding"
+    ))
+
+    # actually ykno put into the database
+    db.session.commit()
 
 @app.route("/")
 def login():
@@ -59,6 +72,7 @@ def handle_login_get():
             # user did not exist, should lead to a registration page>
             return "<h1>pls register:))</h1>"
 
+        dummy_data()
         return "<h1>success</h1>"
 
 if __name__ == "__main__":
