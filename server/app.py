@@ -1,6 +1,8 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
+
+import os
 
 # Import table definitions + SQLAlchemy instance
 from tables import *
@@ -44,7 +46,7 @@ def login():
 
 # POST from login
 @app.route("/login", methods=["POST"])
-def handle_login_get():
+def handle_login():
     if request.method == "POST":
         try_username = request.form["username"]
         try_password = request.form["password"]
@@ -55,13 +57,20 @@ def handle_login_get():
         if user is not None:
             if not user.password == try_password:
                 return error_header + error_text
+            else:
+                return redirect("/home")
         else:
             # user did not exist, should lead to a registration page>
             return "<h1>pls register:))</h1>"
-        
-        if username.isalnum():
-            return "<h1>success</h1>"
-        return "<h1>invalid login</h1>"
+
+@app.route('/sub-path',  defaults={'path': 'index.html'})
+@app.route('/sub-path/<path:path>')
+def index(path):
+    return send_from_directory('../build', path)
+
+@app.errorhandler(404)
+def not_found(e):
+  return send_from_directory('../build','index.html')
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)

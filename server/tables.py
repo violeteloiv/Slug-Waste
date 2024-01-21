@@ -23,7 +23,6 @@ class UserMeals(db.Model):
 class DiningHalls(db.Model):
     dh_name = db.Column(db.Integer, primary_key=True)
 
-
 # Populate known data
 def initalize_dim_tables():
     if not Users.query.get(1):
