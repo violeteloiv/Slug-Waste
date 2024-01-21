@@ -17,7 +17,6 @@ def handle_login_get():
         password = request.form["password"]
         print(username, password)
         
-        
         if username.isalnum():
             return "<h1>success</h1>"
         return "<h1>invalid login</h1>"
