@@ -71,9 +71,12 @@ def handle_login_get():
         else:
             # user did not exist, should lead to a registration page>
             return "<h1>pls register:))</h1>"
-
-        dummy_data()
-        return "<h1>success</h1>"
+        
+        if try_username.isalnum():
+            dummy_data()
+            return "<h1>success</h1>"
+        
+        return "<h1>invalid login</h1>"
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
