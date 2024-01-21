@@ -28,5 +28,8 @@ env/
 .venv
 .env
 
+# python shenanigans
+*.pyc
+
 # for now data is local, don't push it!
 *.db
